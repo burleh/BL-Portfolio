@@ -1,42 +1,51 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Animaciones de Scroll (Reveal)
-    const observerOptions = { 
-        threshold: 0.1 
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // 1. Configuración de Animaciones de Aparición (Scroll Reveal)
+    var observerOptions = {
+        threshold: 0.1
     };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
             }
         });
     }, observerOptions);
 
-    const revealElements = document.querySelectorAll('.reveal');
-    revealElements.forEach(el => {
+    // Seleccionamos todos los elementos con la clase 'reveal' y los observamos
+    var revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach(function(el) {
         observer.observe(el);
     });
 
-    // 2. Lógica del Menú Hamburguesa
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    const links = document.querySelectorAll('.nav-links a');
+    // 2. Lógica del Menú Hamburguesa para Móviles
+    var menuToggle = document.querySelector('.menu-toggle');
+    var navLinks = document.querySelector('.nav-links');
+    var links = document.querySelectorAll('.nav-links a');
 
     if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', () => {
-            const isActive = navLinks.classList.toggle('active');
+        menuToggle.addEventListener('click', function() {
+            var isActive = navLinks.classList.toggle('active');
             menuToggle.classList.toggle('active');
-            // Bloquear scroll cuando el menú está abierto
-            document.body.style.overflow = isActive ? 'hidden' : 'auto';
+            
+            // Bloqueamos el scroll del cuerpo cuando el menú está abierto
+            if (isActive) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
         });
 
-        // Cerrar menú al hacer clic en un enlace
-        links.forEach(link => {
-            link.addEventListener('click', () => {
+        // Cerramos el menú automáticamente al hacer clic en cualquier enlace
+        links.forEach(function(link) {
+            link.addEventListener('click', function() {
                 menuToggle.classList.remove('active');
                 navLinks.classList.remove('active');
                 document.body.style.overflow = 'auto';
             });
         });
     }
+
+    console.log("Portfolio scripts loaded successfully.");
 });
